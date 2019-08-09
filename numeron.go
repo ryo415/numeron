@@ -7,6 +7,7 @@ import(
 	"strconv"
 	"bufio"
 	"os"
+	"regexp"
 )
 
 func random_num() string {
@@ -74,6 +75,18 @@ func check_digit(num int) bool {
 	}
 }
 
+func check_input(num int, input string) bool {
+	reg := "[0-9]{" + strconv.Itoa(num) + "}"
+
+	if len(input) != num {
+		return false
+	} else if !(regexp.MustCompile(reg).Match([]byte(input))) {
+		return false
+	}
+
+	return true
+}
+
 func main() {
 	var num int
 	var num_seq string
@@ -100,9 +113,16 @@ func main() {
 	fmt.Println(num_seq)
 
 	for true {
-		fmt.Print("input > ")
-		scanner.Scan()
-		input = scanner.Text()
+		for true {
+			fmt.Print("input > ")
+			scanner.Scan()
+			input = scanner.Text()
+			if check_input(num, input) {
+				break
+			} else {
+				fmt.Println("input error")
+			}
+		}
 		eat, bite = check_num(num_seq, input)
 		if eat == num {
 			fmt.Println("congraturation!!")
