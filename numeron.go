@@ -66,16 +66,33 @@ func check_num(num_seq string, input string) (int, int) {
 	return eat, bite
 }
 
+func check_digit(num int) bool {
+	if num > 0 && num < 10 {
+		return true
+	} else {
+		return false
+	}
+}
+
 func main() {
 	var num int
 	var num_seq string
 	var input string
 	var eat,bite int
 
-	fmt.Println("数字の個数 9以下")
 	scanner := bufio.NewScanner(os.Stdin)
-	scanner.Scan()
-	num,_ = strconv.Atoi(scanner.Text())
+
+	fmt.Println("数字の個数 9以下")
+	for true {
+		fmt.Printf(">")
+		scanner.Scan()
+		num,_ = strconv.Atoi(scanner.Text())
+		if check_digit(num) {
+			break
+		} else {
+			fmt.Println("1以上9以下を入力")
+		}
+	}
 	num_seq = initial_num(num)
 
 	fmt.Println("--- Start ---")
@@ -83,7 +100,7 @@ func main() {
 	fmt.Println(num_seq)
 
 	for true {
-		fmt.Print("> ")
+		fmt.Print("input > ")
 		scanner.Scan()
 		input = scanner.Text()
 		eat, bite = check_num(num_seq, input)
